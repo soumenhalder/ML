@@ -92,7 +92,9 @@ if __name__ == "__main__":
     print('Online(corrected) simplest gradiant decent',clf.m,clf.b)
 
     ## my simplest gradiant decent
-    clf = GradientDescentLinearRegression_sh(learning_rate=0.0001, iterations=10000)
+    clf = GradientDescentLinearRegression_sh(learning_rate=0.0002, iterations=10000)  
+    # the online method apart from ours by factor of two in J, and hence for its gradiant. 
+    # So our result will match if we use double learning rate
     clf.fit(X, Y)
     print('my simplest gradiant decent',clf.m,clf.b)
 
