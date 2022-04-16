@@ -51,7 +51,7 @@ class GradientDescentLinearRegression_sh:
         
         X = np.hstack((np.ones((n,1)),X.reshape(n,1)))
         for _ in range(self.iterations):
-            xth_y = (X.dot(Theta)-Y)
+            xth_y = (X.dot(Theta)-y)
             
             J = 1/(2*n) * xth_y.T.dot(xth_y)
             #print('Iteratation %s'%(_),Theta,J)
@@ -74,6 +74,20 @@ def find_theta(X,y):
     ##  use pseudo inverse
     return np.linalg.pinv(X).dot(y)
 
+
+def from_book(X,y,eta,n_iterations):
+    m = X.shape[0]
+    n = 2
+    X = X.reshape(m,1)
+    X_b = np.c_[np.ones((m, 1)), X]
+    y = y.reshape(m,1)
+    theta = np.array([[0],[1]])
+    # random initialization
+    #theta  = np.random.randn(n,1)
+    for iteration in range(n_iterations):
+        gradients = 1/m * X_b.T.dot(X_b.dot(theta) - y)
+        theta = theta - eta * gradients
+    return theta
 
 if __name__ == "__main__":
     import pandas as pd
@@ -108,3 +122,7 @@ if __name__ == "__main__":
     mod_lr.fit(df['x'].to_numpy().reshape(df.shape[0],1),df['y'].to_numpy())
     a1,a0 = mod_lr.coef_[0],mod_lr.intercept_
     print('Sklearn',a1,a0)
+
+    # from ML book
+    theta = from_book(X,Y,eta = 0.0002,n_iterations = 10000)
+    print("book:",theta[1][0],theta[0][0])
